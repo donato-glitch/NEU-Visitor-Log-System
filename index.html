@@ -3,35 +3,55 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NEU Visitor Log System</title>
+    <title>NEU Library Visitor Log</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <div class="container">
-        <h2>NEU Visitor Log</h2>
+    <div id="login-section" class="container">
+        <h2>NEU Library Login</h2>
+        <button id="google-login-btn">Login with Google</button>
+    </div>
+
+    <div id="user-section" class="container" style="display:none;">
+        <h2 id="welcome-msg">Welcome to NEU Library!</h2>
         <form id="visitorForm">
             <input type="text" id="name" placeholder="Full Name" required>
-            <input type="text" id="idNum" placeholder="Student/Visitor ID" required>
+            <input type="text" id="idNum" placeholder="Student/Employee ID" required>
+            <select id="roleType">
+                <option value="Student">Student</option>
+                <option value="Teacher">Teacher (Employee)</option>
+                <option value="Staff">Staff (Employee)</option>
+            </select>
+            <select id="college">
+                <option value="CAS">CAS</option>
+                <option value="COE">COE</option>
+                <option value="CBA">CBA</option>
+            </select>
             <select id="purpose">
-                <option value="Library">Library Use</option>
-                <option value="Inquiry">General Inquiry</option>
-                <option value="Meeting">Meeting</option>
+                <option value="Research">Research</option>
+                <option value="Study">Study</option>
+                <option value="Borrow">Borrow Book</option>
             </select>
             <button type="submit">Record Visit</button>
         </form>
+    </div>
 
+    <div id="admin-section" class="container" style="display:none;">
+        <h2>Admin Dashboard (Stats)</h2>
+        <div class="stats-grid">
+            <div class="card"><h3>Today</h3><p id="stat-today">0</p></div>
+            <div class="card"><h3>Students</h3><p id="stat-students">0</p></div>
+            <div class="card"><h3>Employees</h3><p id="stat-employees">0</p></div>
+        </div>
         <table id="logTable">
             <thead>
-                <tr>
-                    <th>Name</th>
-                    <th>ID</th>
-                    <th>Purpose</th>
-                    <th>Time In</th>
-                </tr>
+                <tr><th>Name</th><th>College</th><th>Time</th></tr>
             </thead>
             <tbody></tbody>
         </table>
     </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <script src="script.js"></script>
 </body>
 </html>
