@@ -10,6 +10,7 @@ document.getElementById('login-btn').addEventListener('click', async () => {
     const { error } = await _supabase.auth.signInWithOAuth({
         provider: 'google',
         options: {
+            // Eto yung kailangang eksakto:
             redirectTo: 'https://donato-glitch.github.io/NEU-Visitor-Log-System/'
         }
     });
