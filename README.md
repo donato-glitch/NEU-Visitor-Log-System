@@ -1,26 +1,24 @@
-# NEU Visitor Log System
+# NEU Library Visitor Log System
 
-Isang simple at mahusay na sistema para sa pag-record ng mga bisita sa New Era University. Ang project na ito ay binuo bilang bahagi ng Personal Project requirement para sa kursong pinamamahalaan ni Prof. Jeremias C. Esperanza.
+This is a web-based visitor logging system designed for the New Era University Library. It features Google Authentication and Role-Based Access Control (RBAC) to differentiate between regular students and administrators.
 
-## 📌 Project Overview
-Ang **Visitor Log System** ay nakatuon sa digital na pag-log ng impormasyon ng mga bisita sa halip na gumamit ng tradisyunal na logbook. Layunin nito na gawing mabilis, malinis, at madaling balikan ang mga records ng pagpasok sa campus o library.
+## 🚀 Live Application
+You can access the live application here:
+**[https://donato-glitch.github.io/NEU-Visitor-Log-System/](https://donato-glitch.github.io/NEU-Visitor-Log-System/)**
 
-## ✨ Features
-* **Digital Entry Form:** Pagkuha ng Pangalan, ID Number, at Layunin (Purpose) ng pagbisita.
-* **Real-time Logging:** Awtomatikong pag-record ng eksaktong oras ng pag-log in (Time-in).
-* **Local Session Tracking:** Agarang pagpapakita ng mga bagong entries sa isang table.
-* **User-friendly Interface:** Simple at malinis na disenyo gamit ang HTML at CSS.
+## 🔑 Access Control Details
+The system identifies users based on their Google account email.
 
-## 🛠️ Technologies Used
-* **HTML5:** Para sa istruktura ng web application.
-* **CSS3:** Para sa disenyo at layout.
-* **JavaScript:** Para sa logic at pag-handle ng data entry.
+- **Regular User:** Any valid Google account.
+  - *Functionality:* Displays "Welcome to NEU Library!" and allows visitor entry.
+- **Admin User:** `jcesperanza@neu.edu.ph`
+  - *Functionality:* Displays the Admin Dashboard with Statistics Cards (Daily/Weekly) and advanced filtering options.
 
-## 🚀 How to Run
-1. I-download ang `index.html` file mula sa repository na ito.
-2. I-open ang file gamit ang anumang web browser (Chrome, Edge, Firefox).
-3. Fill up ang form at i-click ang "Submit Entry" para makita ang log.
+## 🛠️ Features
+- **Google Login:** Secure authentication using Supabase and Google OAuth.
+- **Admin Dashboard:** Real-time statistics displayed in visual cards.
+- **Data Filtering:** Filter logs by date range, college, and visitor type (Student/Employee).
+- **Responsive Design:** Clean and modern UI using NEU's color scheme.
 
----
-**Submitted by:** Eduardo D. Donato Jr.  
-**Submitted to:** Prof. Jeremias C. Esperanza
+## 👨‍💻 Developer
+**Eduardo D. Donato Jr.** Submitted to: **Prof. Jeremias C. Esperanza**
