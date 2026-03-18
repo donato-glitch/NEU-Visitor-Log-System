@@ -29,6 +29,7 @@ async function checkUser() {
 async function submitLog() {
     const { data: { session } } = await _supabase.auth.getSession();
     const reason = document.getElementById('reason').value;
+    
     if (!reason) return alert("Please enter a reason for your visit.");
 
     const { error } = await _supabase.from('attendance').insert([{
@@ -42,27 +43,30 @@ async function submitLog() {
     if (!error) {
         alert("Success! Log recorded.");
         document.getElementById('visitor-form-container').innerHTML = "<h4 style='color: #2e7d32;'>✅ Visit Logged Successfully. Enjoy the Library!</h4>";
-        fetchStats(); 
+        
+        setTimeout(() => fetchStats(), 1000);
     } else {
-        alert("Error saving log. Please try again.");
+        alert("Error saving: " + error.message);
     }
 }
 
 async function fetchStats() {
     const { data, error } = await _supabase.from('attendance').select('*').order('logged_at', { ascending: false });
-    if (!error) {
+    
+    if (!error && data) {
       
         document.getElementById('today-count').innerText = data.length;
         document.getElementById('emp-count').innerText = data.filter(r => r.user_type !== 'Student').length;
         document.getElementById('cics-count').innerText = data.filter(r => r.college === 'CICS').length;
 
-       
-        document.getElementById('logs-body').innerHTML = data.map(log => `
+        
+        const tbody = document.getElementById('logs-body');
+        tbody.innerHTML = data.map(log => `
             <tr>
-                <td>${log.full_name}</td>
+                <td style="font-weight: bold; color: #0047ab;">${log.full_name || 'No Name'}</td>
                 <td>${log.college || '-'}</td>
                 <td>${log.reason || '-'}</td>
-                <td>${new Date(log.logged_at).toLocaleTimeString()}</td>
+                <td>${new Date(log.logged_at).toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}</td>
             </tr>
         `).join('');
     }
@@ -72,4 +76,5 @@ async function logout() {
     await _supabase.auth.signOut();
     window.location.reload();
 }
+
 checkUser();
