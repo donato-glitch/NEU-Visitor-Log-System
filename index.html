@@ -3,41 +3,21 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NEU Library Visitor System</title>
+    <title>NEU Visitor Log</title>
     <link rel="stylesheet" href="style.css">
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
 <body>
     <div class="container">
         <div id="auth-section" class="card">
-            <img src="https://upload.wikimedia.org/wikipedia/en/thumb/c/c2/New_Era_University_logo.png/220px-New_Era_University_logo.png" alt="NEU Logo" class="logo">
             <h2>NEU Library System</h2>
-            <hr>
             <button id="login-btn" class="btn-google">Login with Google</button>
         </div>
-
         <div id="user-section" class="card" style="display: none;">
-            <h2 id="greeting">Welcome, Student!</h2>
-            <p>You are now logged in to the NEU Library System.</p>
-            <button onclick="logout()" class="btn-logout">Logout</button>
-        </div>
-
-        <div id="admin-section" class="card" style="display: none;">
-            <h2 id="admin-greeting">Welcome, Admin Jeremias!</h2>
-            <div class="stats-grid">
-                <div class="stat-box">
-                    <h3>Total Visitors</h3>
-                    <p>1,240</p>
-                </div>
-                <div class="stat-box">
-                    <h3>Today's Log</h3>
-                    <p>45</p>
-                </div>
-            </div>
+            <h2 id="greeting">Welcome!</h2>
             <button onclick="logout()" class="btn-logout">Logout</button>
         </div>
     </div>
-
     <script src="script.js"></script>
 </body>
 </html>
