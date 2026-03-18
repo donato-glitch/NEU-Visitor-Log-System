@@ -5,40 +5,53 @@ const _supabase = supabase.createClient(supabaseUrl, supabaseKey);
 
 const ADMIN_EMAILS = ['jcesperanza@neu.edu.ph', 'eduardo.donato@neu.edu.ph', 'donatojayr31@gmail.com'];
 
+
 document.getElementById('login-btn').addEventListener('click', async () => {
-    await _supabase.auth.signInWithOAuth({
+    const { error } = await _supabase.auth.signInWithOAuth({
         provider: 'google',
         options: { redirectTo: window.location.href }
     });
+    if (error) console.log("Login error:", error.message);
 });
+
 
 async function checkUser() {
     const { data: { session } } = await _supabase.auth.getSession();
+    
     if (session) {
         document.getElementById('auth-section').style.display = 'none';
         document.getElementById('user-section').style.display = 'block';
-        if (ADMIN_EMAILS.includes(session.user.email.toLowerCase())) {
+        
+        
+        document.getElementById('greeting').innerText = "Welcome to NEU Library!";
+
+        
+        const userEmail = session.user.email.toLowerCase();
+        if (ADMIN_EMAILS.includes(userEmail)) {
             document.getElementById('admin-controls').style.display = 'block';
+        } else {
+            
+            document.getElementById('admin-controls').style.display = 'none';
         }
     }
 }
 
+
 function toggleRole(role) {
-    const userBtn = document.getElementById('user-view-btn');
-    const adminBtn = document.getElementById('admin-view-btn');
     if (role === 'admin') {
         document.getElementById('visitor-form-container').style.display = 'none';
         document.getElementById('admin-view').style.display = 'block';
-        adminBtn.classList.add('active');
-        userBtn.classList.remove('active');
+        document.getElementById('admin-view-btn').classList.add('active');
+        document.getElementById('user-view-btn').classList.remove('active');
         updateStats();
     } else {
         document.getElementById('visitor-form-container').style.display = 'block';
         document.getElementById('admin-view').style.display = 'none';
-        userBtn.classList.add('active');
-        adminBtn.classList.remove('active');
+        document.getElementById('user-view-btn').classList.add('active');
+        document.getElementById('admin-view-btn').classList.remove('active');
     }
 }
+
 
 async function submitLog() {
     const { data: { session } } = await _supabase.auth.getSession();
@@ -53,11 +66,13 @@ async function submitLog() {
     }]);
 
     if(!error) {
-        alert("Visit Logged Successfully!");
+        alert("Visit Recorded! Thank you.");
+        document.getElementById('reason').value = "";
     } else {
-        alert("Error logging visit.");
+        alert("Error saving log.");
     }
 }
+
 
 async function updateStats() {
     let { data } = await _supabase.from('attendance').select('*');
@@ -67,24 +82,13 @@ async function updateStats() {
         const reasonFilter = document.getElementById('filter-reason').value;
         const dateFilter = document.getElementById('filter-date').value;
 
-        document.getElementById('total-stat').innerText = data.length;
-
         let filtered = data;
-
-        // Requirement: Filter by College
         if(collegeFilter !== "All") filtered = filtered.filter(d => d.college === collegeFilter);
-        
-        // Requirement: Filter by Employee/Teacher/Staff
         if(typeFilter !== "All") filtered = filtered.filter(d => d.user_type === typeFilter);
-        
-        // Requirement: Filter by Reason
         if(reasonFilter !== "All") filtered = filtered.filter(d => d.reason === reasonFilter);
-        
-        // Requirement: Filter by Date
-        if(dateFilter) {
-            filtered = filtered.filter(d => d.created_at.includes(dateFilter));
-        }
+        if(dateFilter) filtered = filtered.filter(d => d.created_at.includes(dateFilter));
 
+        document.getElementById('total-stat').innerText = data.length;
         document.getElementById('filtered-stat').innerText = filtered.length;
     }
 }
