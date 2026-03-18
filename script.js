@@ -3,6 +3,7 @@ const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZS
 
 const _supabase = supabase.createClient(supabaseUrl, supabaseKey);
 
+// Login Function
 document.getElementById('login-btn').addEventListener('click', async () => {
     await _supabase.auth.signInWithOAuth({
         provider: 'google',
@@ -12,16 +13,41 @@ document.getElementById('login-btn').addEventListener('click', async () => {
     });
 });
 
+// Check Session & Record Log
 async function checkUser() {
     const { data: { session } } = await _supabase.auth.getSession();
+    
     if (session) {
+        const user = session.user;
         document.getElementById('auth-section').style.display = 'none';
         document.getElementById('user-section').style.display = 'block';
-        document.getElementById('greeting').innerText = "Welcome, " + (session.user.user_metadata.full_name || session.user.email);
+        
+        const fullName = user.user_metadata.full_name || user.email;
+        document.getElementById('greeting').innerText = "Welcome, " + fullName;
+
+        // I-save ang log sa database (kung wala pa ngayong araw)
+        const loggedInToday = localStorage.getItem('last_log_date');
+        const today = new Date().toLocaleDateString();
+
+        if (loggedInToday !== today) {
+            const { error } = await _supabase
+                .from('attendance')
+                .insert([{ full_name: fullName, email: user.email }]);
+            
+            if (!error) {
+                localStorage.setItem('last_log_date', today);
+                alert("Log recorded successfully!");
+            } else {
+                console.error("Error logging:", error.message);
+            }
+        }
     }
 }
+
 async function logout() {
     await _supabase.auth.signOut();
+    localStorage.removeItem('last_log_date');
     window.location.reload();
 }
+
 checkUser();
