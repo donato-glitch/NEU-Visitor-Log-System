@@ -2,12 +2,19 @@ const supabaseUrl = 'https://nkskdibhsqyxgirotoly.supabase.co';
 const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5rc2tkaWJoc3F5eGdpcm90b2x5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzM3NTYxNDQsImV4cCI6MjA4OTMzMjE0NH0.yq3jFykJN4EVgIJ1gTpf1ue2tq1zNz6keVCBcLxSAwc';
 
 const _supabase = supabase.createClient(supabaseUrl, supabaseKey);
-const ADMIN_EMAILS = ['jcesperanza@neu.edu.ph', 'eduardo.donato@neu.edu.ph', 'princessmarianborja@gmail.com', 'wazzupn06@gmail.com', 'donatojayr31@gmail.com'];
+
+
+const ADMIN_EMAILS = [
+    'jcesperanza@neu.edu.ph', 
+    'eduardo.donato@neu.edu.ph'
+];
 
 document.getElementById('login-btn').addEventListener('click', async () => {
     await _supabase.auth.signInWithOAuth({
         provider: 'google',
-        options: { redirectTo: 'https://donato-glitch.github.io/NEU-Visitor-Log-System/' }
+        options: { 
+            redirectTo: 'https://donato-glitch.github.io/NEU-Visitor-Log-System/' 
+        }
     });
 });
 
@@ -19,7 +26,7 @@ async function checkUser() {
         
         const user = session.user;
         
-        if (ADMIN_EMAILS.includes(user.email)) {
+        if (ADMIN_EMAILS.includes(user.email.toLowerCase())) {
             document.getElementById('admin-view').style.display = 'block';
             fetchStats();
         }
@@ -42,8 +49,7 @@ async function submitLog() {
 
     if (!error) {
         alert("Success! Log recorded.");
-        document.getElementById('visitor-form-container').innerHTML = "<h4 style='color: #2e7d32;'>✅ Visit Logged Successfully. Enjoy the Library!</h4>";
-        
+        document.getElementById('visitor-form-container').innerHTML = "<h4 style='color: #0047ab;'>✅ Visit Logged Successfully. Enjoy the Library!</h4>";
         setTimeout(() => fetchStats(), 1000);
     } else {
         alert("Error saving: " + error.message);
@@ -54,12 +60,10 @@ async function fetchStats() {
     const { data, error } = await _supabase.from('attendance').select('*').order('logged_at', { ascending: false });
     
     if (!error && data) {
-      
         document.getElementById('today-count').innerText = data.length;
         document.getElementById('emp-count').innerText = data.filter(r => r.user_type !== 'Student').length;
         document.getElementById('cics-count').innerText = data.filter(r => r.college === 'CICS').length;
 
-        
         const tbody = document.getElementById('logs-body');
         tbody.innerHTML = data.map(log => `
             <tr>
