@@ -32,6 +32,7 @@
             </div>
 
             <div id="visitor-form-container">
+                <p style="font-size: 13px; color: #666;">Please select your details:</p>
                 <select id="user-type">
                     <option value="Student">Student</option>
                     <option value="Teacher">Teacher</option>
@@ -43,28 +44,45 @@
                     <option value="COE">COE (Engineering)</option>
                     <option value="CBA">CBA (Business Admin)</option>
                 </select>
-                <input type="text" id="reason" placeholder="Reason for visit (e.g. Research)">
+                <select id="reason">
+                    <option value="Research">Research</option>
+                    <option value="Study">Self Study</option>
+                    <option value="Borrow">Borrow Books</option>
+                    <option value="Return">Return Books</option>
+                </select>
                 <button onclick="submitLog()" class="btn-submit">Submit Visitor Log</button>
             </div>
 
             <div id="admin-view" style="display: none;">
-                <div class="filters">
-                    <select id="filter-college" onchange="updateStats()">
-                        <option value="All">All Colleges</option>
-                        <option value="CICS">CICS</option>
-                        <option value="CAS">CAS</option>
-                        <option value="COE">COE</option>
-                    </select>
-                    <select id="filter-type" onchange="updateStats()">
-                        <option value="All">All Roles</option>
-                        <option value="Student">Student</option>
-                        <option value="Teacher">Teacher</option>
-                        <option value="Staff">Staff</option>
-                    </select>
+                <div class="filters-container">
+                    <div class="filter-row">
+                        <input type="date" id="filter-date" onchange="updateStats()">
+                        <select id="filter-reason" onchange="updateStats()">
+                            <option value="All">All Reasons</option>
+                            <option value="Research">Research</option>
+                            <option value="Study">Study</option>
+                            <option value="Borrow">Borrow</option>
+                        </select>
+                    </div>
+                    <div class="filter-row">
+                        <select id="filter-college" onchange="updateStats()">
+                            <option value="All">All Colleges</option>
+                            <option value="CICS">CICS</option>
+                            <option value="CAS">CAS</option>
+                            <option value="COE">COE</option>
+                        </select>
+                        <select id="filter-type" onchange="updateStats()">
+                            <option value="All">All Roles</option>
+                            <option value="Student">Student</option>
+                            <option value="Teacher">Teacher</option>
+                            <option value="Staff">Staff</option>
+                        </select>
+                    </div>
                 </div>
+                
                 <div class="stats-grid">
-                    <div class="stat-item"><small>Total Today</small><b id="total-stat">0</b></div>
-                    <div class="stat-item"><small>Filtered Result</small><b id="filtered-stat">0</b></div>
+                    <div class="stat-item"><small>Grand Total</small><b id="total-stat">0</b></div>
+                    <div class="stat-item"><small>Filtered</small><b id="filtered-stat">0</b></div>
                 </div>
             </div>
 
