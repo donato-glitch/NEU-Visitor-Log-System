@@ -18,6 +18,7 @@ async function checkUser() {
         document.getElementById('user-section').style.display = 'block';
         
         const user = session.user;
+        
         if (ADMIN_EMAILS.includes(user.email)) {
             document.getElementById('admin-view').style.display = 'block';
             fetchStats();
@@ -40,23 +41,27 @@ async function submitLog() {
 
     if (!error) {
         alert("Success! Log recorded.");
-        document.getElementById('visitor-form-container').innerHTML = "<h4>✅ Visit Logged Successfully. Enjoy the Library!</h4>";
-        fetchStats();
+        document.getElementById('visitor-form-container').innerHTML = "<h4 style='color: #2e7d32;'>✅ Visit Logged Successfully. Enjoy the Library!</h4>";
+        fetchStats(); 
+    } else {
+        alert("Error saving log. Please try again.");
     }
 }
 
 async function fetchStats() {
     const { data, error } = await _supabase.from('attendance').select('*').order('logged_at', { ascending: false });
     if (!error) {
+      
         document.getElementById('today-count').innerText = data.length;
         document.getElementById('emp-count').innerText = data.filter(r => r.user_type !== 'Student').length;
-        document.getElementById('ics-count').innerText = data.filter(r => r.college === 'ICS').length;
+        document.getElementById('cics-count').innerText = data.filter(r => r.college === 'CICS').length;
 
+       
         document.getElementById('logs-body').innerHTML = data.map(log => `
             <tr>
                 <td>${log.full_name}</td>
-                <td>${log.college}</td>
-                <td>${log.reason}</td>
+                <td>${log.college || '-'}</td>
+                <td>${log.reason || '-'}</td>
                 <td>${new Date(log.logged_at).toLocaleTimeString()}</td>
             </tr>
         `).join('');
