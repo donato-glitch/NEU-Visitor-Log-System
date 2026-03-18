@@ -18,10 +18,9 @@ async function checkUser() {
         document.getElementById('auth-section').style.display = 'none';
         document.getElementById('user-section').style.display = 'block';
         
-       
         document.getElementById('welcome-msg').innerText = "Welcome to NEU Library!";
 
-        
+       
         if (ADMIN_EMAILS.includes(user.email.toLowerCase())) {
             document.getElementById('admin-controls').style.display = 'block';
         }
