@@ -1,100 +1,61 @@
 body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    
     background-image: url('https://raw.githubusercontent.com/donato-glitch/NEU-Visitor-Log-System/main/neu-background.jpg');
     background-size: cover;
     background-position: center;
     background-attachment: fixed;
     margin: 0;
     display: flex;
-    justify-content: center; 
+    justify-content: center;
     align-items: center;
     min-height: 100vh;
-    padding: 20px;
 }
 
 .card {
-    background: rgba(255, 255, 255, 0.45); 
+    background: rgba(255, 255, 255, 0.92); 
     padding: 40px;
-    border-radius: 25px;
-    box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+    border-radius: 20px;
+    box-shadow: 0 20px 40px rgba(0,0,0,0.3);
     text-align: center;
-    width: 450px; 
-    border: 1px solid rgba(255, 255, 255, 0.3);
-    backdrop-filter: blur(15px);
-    -webkit-backdrop-filter: blur(15px);
+    width: 350px;
+    border-top: 10px solid #0047ab;
+    backdrop-filter: blur(8px);
 }
-
 
 .main-card { 
     width: 95%; 
-    max-width: 950px; 
-    padding: 50px; 
+    max-width: 850px; 
 }
 
+h1 { color: #0047ab; font-size: 1.6rem; margin-bottom: 5px; }
 
-#visitor-form-container .form-group {
-    display: flex;
-    flex-wrap: wrap; 
-    gap: 15px; 
-    justify-content: center;
-    margin-bottom: 30px;
-}
-
-select, input {
-    padding: 12px 15px;
-    border-radius: 8px;
-    border: 1px solid rgba(0, 71, 171, 0.3);
-    background: rgba(255, 255, 255, 0.8);
-    font-size: 14px;
-}
-
-
-.stats-grid {
-    display: flex;
-    gap: 25px; 
-    margin: 30px 0;
-}
-
-.stat-card {
-    padding: 25px;
-    border-radius: 15px;
-    flex: 1;
-    backdrop-filter: blur(5px);
-}
-
-
-.table-container {
-    margin-top: 30px;
-    background: rgba(255, 255, 255, 0.5);
-    border-radius: 15px;
-    overflow: hidden;
-    padding: 10px;
-}
-
-table {
+.btn-google {
+    background: white;
+    border: 1px solid #4285f4;
+    padding: 15px;
+    border-radius: 50px;
     width: 100%;
-    border-collapse: separate;
-    border-spacing: 0 8px; 
+    cursor: pointer;
+    font-weight: bold;
+    color: #4285f4;
+    transition: 0.3s;
 }
 
-th {
-    color: #0047ab;
-    padding: 15px;
-    border-bottom: 2px solid #0047ab;
-    text-transform: uppercase;
-    font-size: 13px;
-    letter-spacing: 1px;
+.btn-google:hover {
+    background: #4285f4;
+    color: white;
 }
 
-td {
-    padding: 15px;
-    background: rgba(255, 255, 255, 0.4);
-    color: #0047ab;
-    font-weight: 500;
-}
 
-tr:hover td {
-    background: rgba(255, 255, 255, 0.7); 
-}
+.stats-grid { display: flex; gap: 15px; margin: 20px 0; flex-wrap: wrap; }
+.stat-card { padding: 20px; border-radius: 12px; flex: 1; min-width: 150px; }
+.blue { background: rgba(227, 242, 253, 0.9); }
+.green { background: rgba(232, 245, 233, 0.9); }
+.orange { background: rgba(255, 243, 224, 0.9); }
 
-h2, h3 { margin-bottom: 20px; color: #0047ab; }
+table { width: 100%; border-collapse: collapse; background: white; border-radius: 8px; overflow: hidden; }
+th { background: #0047ab; color: white; padding: 12px; }
+td { padding: 12px; border-bottom: 1px solid #eee; }
+
+.btn-logout { background: none; border: none; color: #666; text-decoration: underline; cursor: pointer; margin-top: 20px; }
