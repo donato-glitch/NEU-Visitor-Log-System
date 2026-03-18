@@ -4,81 +4,80 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>NEU Library Visitor Log</title>
-    <link rel="stylesheet" href="style.css">
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <style>
+        body { font-family: 'Segoe UI', Arial, sans-serif; background: url('https://neu.edu.ph/main/assets/images/neu_bg.jpg') no-repeat center center fixed; background-size: cover; margin: 0; padding: 20px; display: flex; justify-content: center; align-items: center; min-height: 100vh; }
+        .container { max-width: 800px; width: 100%; background: rgba(255, 255, 255, 0.95); padding: 40px; border-radius: 20px; box-shadow: 0 10px 30px rgba(0,0,0,0.2); text-align: center; border-top: 10px solid #0047ab; }
+        .card { padding: 20px; border-radius: 10px; }
+        .btn-google { background: #fff; color: #757575; padding: 12px 24px; border: 1px solid #ddd; border-radius: 5px; font-size: 16px; cursor: pointer; font-weight: bold; transition: 0.3s; }
+        .btn-google:hover { background: #f1f1f1; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
+        .btn-submit { background: #0047ab; color: white; padding: 12px 30px; border: none; border-radius: 5px; cursor: pointer; font-size: 16px; width: 100%; margin-top: 10px; }
+        .btn-submit:hover { background: #002d6b; }
+        .stats-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 15px; margin: 20px 0; }
+        .stat-card { padding: 15px; border-radius: 10px; color: white; }
+        .blue { background: #0047ab; } .green { background: #28a745; } .orange { background: #fd7e14; }
+        select, input { width: 100%; padding: 12px; margin: 10px 0; border: 1px solid #ccc; border-radius: 5px; box-sizing: border-box; }
+        table { width: 100%; border-collapse: collapse; margin-top: 20px; font-size: 14px; }
+        th, td { border: 1px solid #ddd; padding: 10px; text-align: left; }
+        th { background: #f4f4f4; }
+        .admin-box { background: #e7f3ff; padding: 15px; border-radius: 10px; margin-bottom: 20px; border: 1px solid #b3d7ff; }
+    </style>
 </head>
 <body>
-    <div class="container">
-        <div id="auth-section" class="card">
-            <h1 style="margin-top: 10px;">New Era University</h1>
-            <p style="color: #666; font-weight: 500;">Library Visitor Log System</p>
-            <hr style="border: 0; border-top: 1px solid #eee; margin: 20px 0;">
-            <button id="login-btn" class="btn-google">
-                Login with Google
-            </button>
-        </div>
 
-        <div id="user-section" class="card main-card" style="display: none;">
-            <h2 id="greeting">Welcome to NEU Library!</h2>
-
-            <div id="admin-controls" style="display: none; margin: 20px 0; padding: 10px; background: #f0f4f8; border-radius: 8px;">
-                <p style="margin-bottom: 10px; font-weight: bold; color: #555;">Select Role View:</p>
-                <button onclick="toggleRole('user')" style="padding: 8px 15px; cursor: pointer; border-radius: 5px; border: 1px solid #ccc;">User View</button>
-                <button onclick="toggleRole('admin')" style="padding: 8px 15px; cursor: pointer; border-radius: 5px; border: 1px solid #0047ab; background: #0047ab; color: white;">Admin View</button>
-            </div>
-            
-            <div id="visitor-form-container">
-                <p>Please provide your details to record your visit:</p>
-                <div class="form-group">
-                    <select id="user-type">
-                        <option value="Student">Student</option>
-                        <option value="Teacher">Teacher</option>
-                        <option value="Staff">Staff</option>
-                    </select>
-                    <select id="college">
-                        <option value="CICS">CICS (Informatics and Computing Studies)</option>
-                        <option value="CAS">CAS (Arts and Sciences)</option>
-                        <option value="COE">COE (Engineering)</option>
-                        <option value="CBA">CBA (Business Administration)</option>
-                        <option value="CON">CON (Nursing)</option>
-                        <option value="NA">Not Applicable (Employee)</option>
-                    </select>
-                    <input type="text" id="reason" placeholder="Reason for visit (e.g. Study, Research)">
-                    <button onclick="submitLog()" class="btn-submit">Submit & Log Visit</button>
-                </div>
-            </div>
-
-            <div id="admin-view" style="display: none;">
-                <hr style="margin: 20px 0;">
-                <h3>Library Statistics Dashboard</h3>
-                <div class="stats-grid">
-                    <div class="stat-card blue">
-                        <small>Today's Total</small>
-                        <h2 id="today-count">0</h2>
-                    </div>
-                    <div class="stat-card green">
-                        <small>Employees</small>
-                        <h2 id="emp-count">0</h2>
-                    </div>
-                    <div class="stat-card orange">
-                        <small>CICS Visitors</small>
-                        <h2 id="cics-count">0</h2>
-                    </div>
-                </div>
-
-                <div class="table-container">
-                    <table id="logs-table">
-                        <thead>
-                            <tr><th>Name</th><th>College</th><th>Reason</th><th>Time</th></tr>
-                        </thead>
-                        <tbody id="logs-body"></tbody>
-                    </table>
-                </div>
-            </div>
-
-            <button onclick="logout()" class="btn-logout" style="margin-top: 30px;">Logout</button>
-        </div>
+<div class="container">
+    <img src="https://neu.edu.ph/main/assets/images/neu_logo.png" width="100" alt="NEU Logo">
+    
+    <div id="auth-section">
+        <h1>New Era University</h1>
+        <p>Library Visitor Log System</p>
+        <hr>
+        <button id="login-btn" class="btn-google">Login with Google</button>
     </div>
-    <script src="script.js"></script>
+
+    <div id="user-section" style="display: none;">
+        <h2 id="greeting">Welcome to NEU Library!</h2>
+
+        <div id="admin-controls" class="admin-box" style="display: none;">
+            <p style="margin: 0 0 10px 0;"><strong>Admin Controls:</strong></p>
+            <button onclick="toggleRole('user')">User Form</button>
+            <button onclick="toggleRole('admin')">Admin Stats</button>
+        </div>
+
+        <div id="visitor-form-container">
+            <p>Please record your visit:</p>
+            <select id="user-type">
+                <option value="Student">Student</option>
+                <option value="Teacher">Teacher</option>
+                <option value="Staff">Staff</option>
+            </select>
+            <select id="college">
+                <option value="CICS">CICS (Informatics and Computing Studies)</option>
+                <option value="CAS">CAS (Arts and Sciences)</option>
+                <option value="COE">COE (Engineering)</option>
+                <option value="CBA">CBA (Business Administration)</option>
+            </select>
+            <input type="text" id="reason" placeholder="Reason (e.g., Study, Research)">
+            <button onclick="submitLog()" class="btn-submit">Submit & Log Visit</button>
+        </div>
+
+        <div id="admin-view" style="display: none;">
+            <h3>Library Statistics</h3>
+            <div class="stats-grid">
+                <div class="stat-card blue"><small>Today</small><h2 id="today-count">0</h2></div>
+                <div class="stat-card green"><small>Employees</small><h2 id="emp-count">0</h2></div>
+                <div class="stat-card orange"><small>CICS</small><h2 id="cics-count">0</h2></div>
+            </div>
+            <table>
+                <thead><tr><th>Name</th><th>College</th><th>Time</th></tr></thead>
+                <tbody id="logs-body"></tbody>
+            </table>
+        </div>
+
+        <button onclick="logout()" style="margin-top:20px; background:none; border:none; color:red; cursor:pointer; text-decoration:underline;">Logout</button>
+    </div>
+</div>
+
+<script src="script.js"></script>
 </body>
 </html>
