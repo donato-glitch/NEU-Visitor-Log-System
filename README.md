@@ -2,7 +2,7 @@
 Midterm Project for CIT223-18
 
 ## Live Demo
-[https://donato-glitch.github.io/NEU-Visitor-Log-System/]
+https://donato-glitch.github.io/NEU-Visitor-Log-System/
 
 ## Features
 - **Google OAuth Login**: Secure login using NEU accounts.
