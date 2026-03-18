@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NEU Visitor Log System</title>
+    <title>NEU Library Visitor Log</title>
     <link rel="stylesheet" href="style.css">
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 </head>
@@ -15,25 +15,56 @@
             <button id="login-btn" class="btn-google">Login with Google</button>
         </div>
 
-        <div id="user-section" class="card" style="display: none;">
-            <h2 id="greeting">Welcome!</h2>
+        <div id="user-section" class="card" style="display: none; width: 90%; max-width: 800px;">
+            <h2 id="greeting">Welcome to NEU Library!</h2>
             
+            <div id="visitor-form-container">
+                <p>Please provide your details to enter:</p>
+                <div style="display: flex; flex-direction: column; gap: 10px; margin: 20px 0;">
+                    <select id="user-type">
+                        <option value="Student">Student</option>
+                        <option value="Teacher">Teacher</option>
+                        <option value="Staff">Staff</option>
+                    </select>
+                    <select id="college">
+                        <option value="ICS">ICS (Computer Studies)</option>
+                        <option value="CAS">CAS (Arts and Sciences)</option>
+                        <option value="COE">COE (Engineering)</option>
+                        <option value="CBA">CBA (Business Administration)</option>
+                        <option value="CON">CON (Nursing)</option>
+                    </select>
+                    <input type="text" id="reason" placeholder="Reason for visit (e.g., Study, Research)">
+                    <button onclick="submitLog()" class="btn-google">Submit & Log Visit</button>
+                </div>
+            </div>
+
             <div id="admin-view" style="display: none;">
-                <h3>Recent Visitor Logs</h3>
+                <hr>
+                <h3>Library Statistics Dashboard</h3>
+                <div style="display: flex; gap: 10px; margin-bottom: 20px; flex-wrap: wrap;">
+                    <div class="stat-card" style="background: #e3f2fd; padding: 15px; border-radius: 8px; flex: 1; min-width: 150px;">
+                        <small>Today's Visitors</small>
+                        <h2 id="today-count">0</h2>
+                    </div>
+                    <div class="stat-card" style="background: #f1f8e9; padding: 15px; border-radius: 8px; flex: 1; min-width: 150px;">
+                        <small>Employees (Teacher/Staff)</small>
+                        <h2 id="emp-count">0</h2>
+                    </div>
+                    <div class="stat-card" style="background: #fff3e0; padding: 15px; border-radius: 8px; flex: 1; min-width: 150px;">
+                        <small>ICS Visitors</small>
+                        <h2 id="ics-count">0</h2>
+                    </div>
+                </div>
+
                 <table id="logs-table">
                     <thead>
-                        <tr>
-                            <th>Name</th>
-                            <th>Email</th>
-                            <th>Time</th>
-                        </tr>
+                        <tr><th>Name</th><th>College</th><th>Reason</th><th>Time</th></tr>
                     </thead>
-                    <tbody id="logs-body">
-                        </tbody>
+                    <tbody id="logs-body"></tbody>
                 </table>
             </div>
 
-            <button onclick="logout()" class="btn-logout">Logout</button>
+            <button onclick="logout()" class="btn-logout" style="margin-top: 30px;">Logout</button>
         </div>
     </div>
     <script src="script.js"></script>
