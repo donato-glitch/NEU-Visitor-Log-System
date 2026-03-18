@@ -1,119 +1,61 @@
-/* style.css */
 body {
-    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    background-color: #f0f2f5;
+    font-family: 'Poppins', sans-serif;
+    background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+    margin: 0;
     display: flex;
     justify-content: center;
     align-items: center;
     min-height: 100vh;
-    margin: 0;
-}
-
-.container {
-    width: 100%;
-    padding: 20px;
-    display: flex;
-    justify-content: center;
 }
 
 .card {
     background: white;
-    padding: 40px;
-    border-radius: 15px;
-    box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+    padding: 30px;
+    border-radius: 20px;
+    box-shadow: 0 15px 35px rgba(0,0,0,0.1);
     text-align: center;
-    width: 100%;
-    max-width: 450px;
-    border-top: 8px solid #0047ab; /* NEU Blue */
+    width: 350px;
+    border-top: 10px solid #0047ab;
 }
 
-#user-section.card {
-    max-width: 800px; /* Mas malapad para sa stats table */
-}
+.main-card { width: 90%; max-width: 850px; }
 
-h2 {
-    color: #0047ab;
-    margin-bottom: 20px;
-}
+.neu-logo { width: 120px; margin-bottom: 15px; }
 
-h3 {
-    color: #333;
-    border-bottom: 2px solid #eee;
-    padding-bottom: 10px;
-}
+h1 { color: #0047ab; font-size: 1.4rem; margin: 0; }
 
-/* Buttons */
 .btn-google {
-    background-color: #ffffff;
-    color: #444;
+    background: white;
     border: 1px solid #ddd;
-    padding: 12px 24px;
-    border-radius: 5px;
-    font-size: 16px;
-    font-weight: bold;
-    cursor: pointer;
-    transition: all 0.3s ease;
+    padding: 12px;
+    border-radius: 50px;
     width: 100%;
     display: flex;
     align-items: center;
     justify-content: center;
     gap: 10px;
-}
-
-.btn-google:hover {
-    background-color: #f8f9fa;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
-}
-
-.btn-logout {
-    background-color: #dc3545;
-    color: white;
-    border: none;
-    padding: 10px 20px;
-    border-radius: 5px;
     cursor: pointer;
+    font-weight: 600;
     margin-top: 20px;
+    transition: 0.3s;
 }
 
-/* Form Styling */
-select, input {
-    width: 100%;
-    padding: 12px;
-    margin: 8px 0;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    box-sizing: border-box;
-}
+.btn-google:hover { background: #f8f9fa; transform: translateY(-2px); }
 
-/* Stats Cards */
-.stat-card {
-    transition: transform 0.2s;
-    border: 1px solid rgba(0,0,0,0.05);
-}
+.form-group { display: flex; flex-direction: column; gap: 10px; margin: 20px 0; }
 
-.stat-card:hover {
-    transform: translateY(-5px);
-}
+select, input { padding: 12px; border-radius: 8px; border: 1px solid #ddd; font-size: 14px; }
 
-/* Table Styling */
-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin-top: 20px;
-}
+.btn-submit { background: #0047ab; color: white; border: none; padding: 15px; border-radius: 8px; cursor: pointer; font-weight: bold; }
 
-th {
-    background-color: #0047ab;
-    color: white;
-    padding: 12px;
-}
+.stats-grid { display: flex; gap: 15px; margin: 20px 0; flex-wrap: wrap; }
 
-td {
-    padding: 12px;
-    border-bottom: 1px solid #eee;
-    text-align: left;
-}
+.stat-card { padding: 20px; border-radius: 12px; flex: 1; min-width: 120px; color: #333; }
+.blue { background: #e3f2fd; } .green { background: #e8f5e9; } .orange { background: #fff3e0; }
 
-tr:hover {
-    background-color: #f9f9f9;
-}
+.table-container { overflow-x: auto; margin-top: 20px; }
+table { width: 100%; border-collapse: collapse; text-align: left; font-size: 14px; }
+th { background: #0047ab; color: white; padding: 12px; }
+td { padding: 12px; border-bottom: 1px solid #eee; }
+
+.btn-logout { background: none; border: none; color: #888; text-decoration: underline; cursor: pointer; }
