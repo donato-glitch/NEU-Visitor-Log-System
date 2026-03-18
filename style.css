@@ -1,3 +1,4 @@
+
 body {
     font-family: 'Segoe UI', Arial, sans-serif;
     margin: 0;
@@ -5,12 +6,17 @@ body {
     justify-content: center;
     align-items: center;
     min-height: 100vh;
-    background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)), 
+    
+    background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), 
                 url('https://neu.edu.ph/main/assets/images/neu_bg.jpg') no-repeat center center fixed;
     background-size: cover;
 }
 
-.container { width: 100%; max-width: 420px; padding: 20px; }
+.container { 
+    width: 100%; 
+    max-width: 420px; 
+    padding: 20px; 
+}
 
 .card {
     background: rgba(255, 255, 255, 0.95);
