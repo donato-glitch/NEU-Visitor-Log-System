@@ -6,7 +6,7 @@
     <title>NEU Library Visitor Log</title>
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
     <style>
-        
+      
         body {
             font-family: 'Segoe UI', Arial, sans-serif;
             margin: 0;
@@ -16,88 +16,97 @@
             align-items: center;
             min-height: 100vh;
             
-            background: linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), 
+            background: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.3)), 
                         url('https://neu.edu.ph/main/assets/images/neu_bg.jpg') no-repeat center center fixed;
             background-size: cover;
         }
 
         .container {
             width: 100%;
-            max-width: 500px;
+            max-width: 450px;
             padding: 20px;
         }
 
+        
         .card {
-            background: rgba(255, 255, 255, 0.9);
-            padding: 30px;
-            border-radius: 15px;
-            box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+            background: rgba(255, 255, 255, 0.85);
+            padding: 40px 30px;
+            border-radius: 20px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.4);
             text-align: center;
-            backdrop-filter: blur(5px);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
         }
 
-        h1 { color: #0047ab; margin-bottom: 5px; font-size: 24px; }
-        p { color: #555; margin-bottom: 20px; }
+        h1 { color: #0047ab; margin: 0 0 10px 0; font-size: 26px; font-weight: 800; }
+        p { color: #333; margin-bottom: 25px; font-weight: 500; }
 
-        
         .btn-google {
             background: white;
             color: #444;
-            padding: 10px 20px;
-            border: 1px solid #ccc;
-            border-radius: 5px;
+            padding: 12px 25px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
             cursor: pointer;
             font-weight: bold;
             display: flex;
             align-items: center;
             justify-content: center;
             gap: 10px;
-            margin: auto;
+            margin: 0 auto;
+            transition: 0.3s;
         }
+
+        .btn-google:hover { background: #f8f9fa; transform: translateY(-2px); }
 
         .btn-submit {
             background: #0047ab;
             color: white;
             border: none;
-            padding: 12px;
+            padding: 14px;
             width: 100%;
-            border-radius: 5px;
+            border-radius: 8px;
             cursor: pointer;
             font-size: 16px;
+            font-weight: bold;
             margin-top: 15px;
         }
 
         select, input {
             width: 100%;
-            padding: 10px;
-            margin: 8px 0;
-            border-radius: 5px;
-            border: 1px solid #ddd;
+            padding: 12px;
+            margin: 10px 0;
+            border-radius: 8px;
+            border: 1px solid #ccc;
             box-sizing: border-box;
+            background: white;
         }
 
-        
+        /* ADMIN STYLE */
         .admin-controls {
-            background: #eef2f7;
-            padding: 10px;
-            border-radius: 8px;
-            margin-bottom: 15px;
+            background: rgba(0, 71, 171, 0.1);
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 20px;
             display: flex;
+            flex-direction: column;
             gap: 10px;
-            justify-content: center;
         }
         
-        .admin-btn { padding: 5px 10px; cursor: pointer; font-size: 12px; }
+        .role-btns { display: flex; gap: 10px; justify-content: center; }
+        .role-btns button { padding: 8px 15px; cursor: pointer; border-radius: 5px; border: 1px solid #0047ab; background: white; color: #0047ab; font-weight: bold; }
+        .role-btns button.active { background: #0047ab; color: white; }
 
         .stats-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 15px; }
-        .stat-item { background: #0047ab; color: white; padding: 10px; border-radius: 5px; }
+        .stat-item { background: #0047ab; color: white; padding: 15px; border-radius: 8px; }
+        .stat-item small { display: block; font-size: 10px; text-transform: uppercase; opacity: 0.8; }
+        .stat-item b { font-size: 20px; }
     </style>
 </head>
 <body>
 
 <div class="container">
     <div class="card">
-        <img src="https://upload.wikimedia.org/wikipedia/en/thumb/3/3a/New_Era_University_logo.png/220px-New_Era_University_logo.png" width="80" alt="NEU Logo">
         
         <div id="auth-section">
             <h1>New Era University</h1>
@@ -108,51 +117,52 @@
         </div>
 
         <div id="user-section" style="display: none;">
-            <h2 id="greeting" style="color:#0047ab;">Welcome to NEU Library!</h2>
+            <h2 id="greeting" style="color:#0047ab; margin-top:0;">Welcome to NEU Library!</h2>
 
             <div id="admin-controls" class="admin-controls" style="display: none;">
-                <button onclick="toggleRole('user')" class="admin-btn">User View</button>
-                <button onclick="toggleRole('admin')" class="admin-btn" style="background:#0047ab; color:white; border:none;">Admin Stats</button>
+                <span style="font-size: 12px; font-weight: bold; color: #0047ab;">ADMIN PANEL</span>
+                <div class="role-btns">
+                    <button id="user-view-btn" onclick="toggleRole('user')" class="active">User View</button>
+                    <button id="admin-view-btn" onclick="toggleRole('admin')">Admin View</button>
+                </div>
             </div>
 
             <div id="visitor-form-container">
                 <select id="user-type">
                     <option value="Student">Student</option>
                     <option value="Teacher">Teacher</option>
+                    <option value="Staff">Staff</option>
                 </select>
                 <select id="college">
                     <option value="CICS">CICS</option>
                     <option value="CAS">CAS</option>
                     <option value="COE">COE</option>
+                    <option value="CBA">CBA</option>
                 </select>
-                <input type="text" id="reason" placeholder="Reason for Visit">
+                <input type="text" id="reason" placeholder="Reason (e.g. Research, Study)">
                 <button onclick="submitLog()" class="btn-submit">Submit Entry</button>
             </div>
 
             <div id="admin-view" style="display: none;">
-                <h3>Today's Stats</h3>
                 <div class="stats-grid">
-                    <div class="stat-item">Total: <span id="today-count">0</span></div>
-                    <div class="stat-item">CICS: <span id="cics-count">0</span></div>
+                    <div class="stat-item"><small>Total Today</small><b id="today-count">0</b></div>
+                    <div class="stat-item"><small>CICS Visitors</small><b id="cics-count">0</b></div>
                 </div>
-                <p style="font-size: 12px; margin-top: 10px;">Check Supabase for full table logs.</p>
+                <p style="font-size: 11px; margin-top: 15px; color: #666;">Data is synced from Supabase</p>
             </div>
 
-            <button onclick="logout()" style="margin-top:20px; color:gray; background:none; border:none; cursor:pointer;">Logout</button>
+            <button onclick="logout()" style="margin-top:25px; color:#999; background:none; border:none; cursor:pointer; font-size:12px;">Sign Out</button>
         </div>
     </div>
 </div>
 
 <script>
-    
     const supabaseUrl = 'https://nkskdibhsqyxgirotoly.supabase.co';
     const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5rc2tkaWJoc3F5eGdpcm90b2x5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzM3NTYxNDQsImV4cCI6MjA4OTMzMjE0NH0.yq3jFykJN4EVgIJ1gTpf1ue2tq1zNz6keVCBcLxSAwc';
     const _supabase = supabase.createClient(supabaseUrl, supabaseKey);
 
-    
     const ADMIN_EMAILS = ['jcesperanza@neu.edu.ph', 'eduardo.donato@neu.edu.ph', 'donatojayr31@gmail.com'];
 
-    
     document.getElementById('login-btn').addEventListener('click', async () => {
         await _supabase.auth.signInWithOAuth({
             provider: 'google',
@@ -160,7 +170,6 @@
         });
     });
 
-    
     async function checkUser() {
         const { data: { session } } = await _supabase.auth.getSession();
         if (session) {
@@ -173,23 +182,28 @@
         }
     }
 
-    
     function toggleRole(role) {
+        const userBtn = document.getElementById('user-view-btn');
+        const adminBtn = document.getElementById('admin-view-btn');
+
         if (role === 'admin') {
             document.getElementById('visitor-form-container').style.display = 'none';
             document.getElementById('admin-view').style.display = 'block';
+            adminBtn.classList.add('active');
+            userBtn.classList.remove('active');
             updateStats();
         } else {
             document.getElementById('visitor-form-container').style.display = 'block';
             document.getElementById('admin-view').style.display = 'none';
+            userBtn.classList.add('active');
+            adminBtn.classList.remove('active');
         }
     }
 
-    
     async function submitLog() {
         const { data: { session } } = await _supabase.auth.getSession();
         const reason = document.getElementById('reason').value;
-        if(!reason) return alert("Fill reason");
+        if(!reason) return alert("Please enter a reason.");
 
         const { error } = await _supabase.from('attendance').insert([{
             full_name: session.user.user_metadata.full_name,
@@ -200,12 +214,11 @@
         }]);
 
         if(!error) {
-            alert("Success!");
+            alert("Visitor log submitted!");
             document.getElementById('reason').value = "";
         }
     }
 
-    
     async function updateStats() {
         let { data } = await _supabase.from('attendance').select('*');
         if(data) {
@@ -214,7 +227,6 @@
         }
     }
 
-    
     async function logout() {
         await _supabase.auth.signOut();
         window.location.reload();
