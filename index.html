@@ -13,11 +13,9 @@
 <div id="auth-section">
     <div class="login-card">
         <div class="brand-title">User Login</div>
-        <p class="sub-text">Welcome to NEU Library Visitor Log System. Please sign in to continue.</p>
-        
+        <p class="sub-text">Please sign in with your NEU Google Account to access the Visitor Log System.</p>
         <button id="login-btn" class="google-btn">
-            <img src="https://www.google.com/favicon.ico" width="18">
-            Continue with Google
+            <img src="https://www.google.com/favicon.ico" width="18"> Continue with Google
         </button>
         <div class="login-footer">New Era University © 2026</div>
     </div>
@@ -28,17 +26,17 @@
         <div class="sidebar-logo">NEU Library</div>
         <nav>
             <div id="admin-nav" style="display: none;">
-                <p class="menu-label">Admin Panel</p>
+                <p class="menu-label">Management</p>
                 <button onclick="toggleView('admin')" id="admin-tab" class="nav-item active">
-                    <i class="fas fa-chart-pie"></i> Admin Stats
+                    <i class="fas fa-chart-line"></i> Admin Dashboard
                 </button>
             </div>
-            <p class="menu-label">Visitor Access</p>
+            <p class="menu-label">Entry</p>
             <button onclick="toggleView('user')" id="user-tab" class="nav-item">
                 <i class="fas fa-edit"></i> Kiosk Mode
             </button>
         </nav>
-        <button onclick="logout()" class="logout-link"><i class="fas fa-sign-out-alt"></i> Sign Out</button>
+        <button onclick="logout()" class="logout-link">Sign Out</button>
     </aside>
 
     <main class="content-area">
@@ -54,12 +52,12 @@
                     <div class="circle-progress"><span id="visitor-count">0</span></div>
                 </div>
                 <div class="card menu-card">
-                    <h3>🍔 Menu</h3>
+                    <h3>Menu</h3>
                     <button class="list-btn"><i class="fas fa-book"></i> Books</button>
-                    <button class="list-btn"><i class="fas fa-user-friends"></i> Members</button>
+                    <button class="list-btn"><i class="fas fa-users"></i> Members</button>
                 </div>
                 <div class="card action-card">
-                    <h3>⚡ Quick Buttons</h3>
+                    <h3>Quick Buttons</h3>
                     <button class="btn-outline">+ Add Book</button>
                     <button class="btn-outline">+ Add Member</button>
                 </div>
@@ -67,13 +65,19 @@
 
             <div class="card table-container">
                 <div class="table-header">
-                    <h3>Visitor Database</h3>
+                    <h3>Visitor Log Database</h3>
                     <div class="table-filters">
                         <input type="date" id="filter-date" onchange="loadLogs()">
                         <select id="filter-college" onchange="loadLogs()">
                             <option value="All">All Colleges</option>
                             <option value="CICS">CICS</option>
                             <option value="CAS">CAS</option>
+                            <option value="COE">COE</option>
+                        </select>
+                        <select id="filter-reason" onchange="loadLogs()">
+                            <option value="All">All Reasons</option>
+                            <option value="Research">Research</option>
+                            <option value="Study">Self Study</option>
                         </select>
                     </div>
                 </div>
@@ -94,9 +98,9 @@
 
         <div id="user-view" class="view-panel" style="display: none;">
             <div class="card kiosk-form">
-                <h2>Library Entry Log</h2>
+                <h2>Visitor Entry Form</h2>
                 <div class="input-group">
-                    <label>Visitor Type</label>
+                    <label>Role</label>
                     <select id="user-type">
                         <option value="Student">Student</option>
                         <option value="Teacher">Teacher (Employee)</option>
@@ -115,8 +119,8 @@
                     <label>Reason</label>
                     <select id="reason">
                         <option value="Research">Research</option>
-                        <option value="Self Study">Self Study</option>
-                        <option value="Borrowing">Borrowing Books</option>
+                        <option value="Study">Self Study</option>
+                        <option value="Borrow">Borrow Books</option>
                     </select>
                 </div>
                 <button onclick="submitEntry()" class="submit-btn">Submit Visitor Log</button>
