@@ -1,63 +1,45 @@
-/* METRO UI DASHBOARD (Inspired by image_14.png) */
-.metro-dashboard {
-    padding: 30px;
-    background-color: #f0f0f0; /* Light gray background para lumitaw ang tiles */
-    height: 100vh;
-    overflow-y: auto;
-}
+* { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Segoe UI', sans-serif; }
 
-.metro-header {
-    background-color: #0078d7; /* Windows Blue */
-    color: white;
-    padding: 20px;
-    margin-bottom: 30px;
-    border-radius: 5px;
-}
+/* 1. SPLIT LOGIN STYLES */
+#auth-section { height: 100vh; display: flex; }
+.split-container { display: flex; width: 100%; }
+.login-side { flex: 1; display: flex; flex-direction: column; justify-content: center; align-items: center; padding: 50px; text-align: center; }
+.student-side { background: #ffffff; color: #333; }
+.admin-side { background: #0056b3; color: #ffffff; }
 
-/* CSS GRID PARA SA TILES */
-.tile-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-    grid-auto-rows: 150px;
-    gap: 15px;
-}
+.login-side i { margin-bottom: 20px; opacity: 0.8; }
+.login-side h2 { font-size: 32px; margin-bottom: 10px; }
 
-/* BASE TILE STYLE */
-.tile {
-    color: white;
-    padding: 20px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    cursor: pointer;
-    transition: transform 0.1s ease;
-    border-radius: 3px;
-    font-size: 14px;
-    font-weight: 600;
+.google-btn { 
+    background: white; border: 1px solid #ddd; padding: 15px 30px; 
+    border-radius: 30px; cursor: pointer; display: flex; align-items: center; 
+    gap: 12px; font-weight: bold; margin-top: 25px; transition: 0.3s;
 }
+.google-btn:hover { background: #f8f9fa; transform: translateY(-2px); box-shadow: 0 5px 15px rgba(0,0,0,0.1); }
+.google-btn img { width: 20px; }
 
-.tile:hover {
-    transform: scale(1.05); /* Zoom-in effect pag hinover */
-    box-shadow: 0 5px 15px rgba(0,0,0,0.2);
-}
+/* 2. METRO UI DASHBOARD */
+.metro-wrapper { background: #87ceeb; min-height: 100vh; padding-bottom: 40px; }
+.metro-header { background: #0078d7; color: white; padding: 40px; display: flex; justify-content: space-between; border-bottom: 5px solid white; }
+.header-left h1 { font-size: 36px; font-weight: 300; }
 
-.tile span {
-    margin-top: 15px;
-    display: block;
-}
+/* TILES */
+.tile-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 10px; padding: 20px; max-width: 1100px; margin: 0 auto; }
+.tile { background: #00a2ed; color: white; height: 150px; display: flex; flex-direction: column; align-items: center; justify-content: center; cursor: pointer; border: 1px solid rgba(255,255,255,0.2); transition: 0.1s; }
+.tile:hover { outline: 3px solid white; transform: scale(0.98); }
+.tile i { font-size: 45px; margin-bottom: 15px; }
+.tile span { font-size: 14px; font-weight: 600; text-transform: uppercase; }
+.tile-double { grid-column: span 2; }
 
-/* MALAKING TILE (Sinasakop ang 2 columns) */
-.tile-large {
-    grid-column: span 2;
-    font-size: 18px;
-}
+/* COLORS */
+.bg-blue { background: #0078d7; }
+.bg-teal { background: #00aba9; }
+.bg-orange { background: #da532c; }
+.bg-red { background: #b91d47; }
 
-/* MGA KULAY NG TILES (Metro Colors) */
-.bg-blue { background-color: #0078d7; }
-.bg-teal { background-color: #00aba9; }
-.bg-orange { background-color: #eff4ff; color: #333 !important; } /* Light tile */
-.bg-red { background-color: #e74c3c; }
-.bg-purple { background-color: #9b59b6; }
-.bg-green { background-color: #2ecc71; }
+/* TABLE CARD */
+.metro-table-card { max-width: 1100px; margin: 20px auto; background: white; border: 2px solid #0078d7; }
+.table-header { background: #0078d7; color: white; padding: 10px; font-weight: bold; font-size: 14px; }
+.table-scroll { max-height: 300px; overflow-y: auto; }
+table { width: 100%; border-collapse: collapse; }
+th { background: #f2f2f2; padding: 12px; text-align: left; font-size:
