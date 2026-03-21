@@ -86,20 +86,22 @@
                 <div class="form-group">
                     <label>College</label>
                     <select id="college">
-                        <option>CICS</option>
-                        <option>CAS</option>
-                        <option>COE</option>
+                        <option value="CICS">CICS</option>
+                        <option value="CAS">CAS</option>
+                        <option value="COE">COE</option>
+                        <option value="CON">CON</option>
                     </select>
                 </div>
                 <div class="form-group">
-                    <label>Reason</label>
+                    <label>Reason for Visit</label>
                     <select id="reason">
-                        <option>Self Study</option>
-                        <option>Research</option>
-                        <option>Borrow Book</option>
+                        <option value="Self Study">Self Study</option>
+                        <option value="Research">Research</option>
+                        <option value="Borrow Book">Borrow Book</option>
                     </select>
                 </div>
                 <button onclick="submitLog()" class="submit-btn">SUBMIT ENTRY</button>
+                <button onclick="logout()" style="margin-top:10px; width:100%; padding:10px; background:#ddd; border:none; cursor:pointer;">CANCEL / LOGOUT</button>
             </div>
         </div>
 
