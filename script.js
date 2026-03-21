@@ -42,7 +42,6 @@ async function checkSession() {
 
 async function logout() {
     await _supabase.auth.signOut();
-    
     window.location.href = window.location.origin + window.location.pathname;
 }
 
