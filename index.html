@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>NEU Visitor Log System</title>
+    <title>Welcome to NEU Library</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
     <link rel="stylesheet" href="style.css">
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
@@ -15,7 +15,7 @@
         <div class="login-side student-side">
             <i class="fas fa-user-graduate fa-5x"></i>
             <h2>Student Login</h2>
-            <p>Access the Visitor Kiosk</p>
+            <p>Library Visitor Kiosk</p>
             <button class="google-btn" onclick="login()">
                 <img src="https://www.google.com/favicon.ico"> Continue with Google
             </button>
@@ -23,7 +23,7 @@
         <div class="login-side admin-side">
             <i class="fas fa-user-shield fa-5x"></i>
             <h2>Admin Login</h2>
-            <p>Access Admin Dashboard & Logs</p>
+            <p>Library Admin Dashboard</p>
             <button class="google-btn admin-g-btn" onclick="login()">
                 <img src="https://www.google.com/favicon.ico"> Login as Admin
             </button>
@@ -35,8 +35,8 @@
     <div class="metro-wrapper">
         <header class="metro-header">
             <div class="header-left">
-                <h1>NEU Visitor Log System</h1>
-                <span>University Library | Version 1.0.4</span>
+                <h1>Welcome to NEU Library</h1>
+                <span>Visitor Log System | Version 1.0.5</span>
             </div>
             <div class="header-right">
                 <i class="fas fa-university fa-3x"></i>
@@ -44,6 +44,16 @@
         </header>
 
         <div id="admin-view" class="view-container" style="display: none;">
+            <div style="padding: 0 20px; max-width: 1100px; margin: 10px auto;">
+                <div style="background: white; padding: 15px; border-left: 5px solid #00aba9; display: flex; align-items: center; gap: 15px; box-shadow: 0 2px 5px rgba(0,0,0,0.1);">
+                    <i class="fas fa-users fa-2x" style="color: #00aba9;"></i>
+                    <div>
+                        <h3 id="total-count" style="margin: 0; font-size: 24px;">0</h3>
+                        <p style="margin: 0; font-size: 14px; color: #666;">Total Recorded Visitors Today</p>
+                    </div>
+                </div>
+            </div>
+
             <div class="tile-grid">
                 <div class="tile tile-double bg-blue" onclick="showView('kiosk')">
                     <i class="fas fa-user-plus"></i>
