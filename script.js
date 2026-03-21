@@ -2,74 +2,87 @@ const supabaseUrl = 'https://nkskdibhsqyxgirotoly.supabase.co';
 const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5rc2tkaWJoc3F5eGdpcm90b2x5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzM3NTYxNDQsImV4cCI6MjA4OTMzMjE0NH0.yq3jFykJN4EVgIJ1gTpf1ue2tq1zNz6keVCBcLxSAwc';
 const _supabase = supabase.createClient(supabaseUrl, supabaseKey);
 
-const ADMIN_EMAILS = ['jcesperanza@neu.edu.ph', 'eduardo.donato@neu.edu.ph'];
+const ADMINS = ['jcesperanza@neu.edu.ph', 'eduardo.donato@neu.edu.ph'];
 
-document.getElementById('login-btn').addEventListener('click', async () => {
-    await _supabase.auth.signInWithOAuth({ provider: 'google', options: { redirectTo: window.location.href } });
-});
+// 1. Google Login (cite: 12)
+async function login() {
+    const { error } = await _supabase.auth.signInWithOAuth({
+        provider: 'google',
+        options: { redirectTo: window.location.href }
+    });
+    if (error) alert("Login error: " + error.message);
+}
 
-async function checkUser() {
+// 2. Session Check (Automatic redirect)
+async function checkSession() {
     const { data: { session } } = await _supabase.auth.getSession();
     if (session) {
         document.getElementById('auth-section').style.display = 'none';
-        document.getElementById('user-section').style.display = 'flex';
-        document.getElementById('user-email-display').innerText = session.user.email;
+        document.getElementById('main-app').style.display = 'block';
+        document.getElementById('user-status').innerText = `Logged in as: ${session.user.email}`;
 
-        if (ADMIN_EMAILS.includes(session.user.email.toLowerCase())) {
-            document.getElementById('admin-nav').style.display = 'block';
-            toggleView('admin');
+        if (ADMINS.includes(session.user.email.toLowerCase())) {
+            showView('admin');
         } else {
-            toggleView('user');
+            showView('kiosk');
         }
     }
 }
 
-async function loadLogs() {
-    let { data } = await _supabase.from('attendance').select('*').order('created_at', { ascending: false });
+// 3. Navigation
+function showView(view) {
+    document.getElementById('admin-view').style.display = (view === 'admin') ? 'block' : 'none';
+    document.getElementById('kiosk-view').style.display = (view === 'kiosk') ? 'block' : 'none';
+    if(view === 'admin') loadAdminLogs();
+}
+
+// 4. Load Data (Live Activity)
+async function loadAdminLogs() {
+    const { data, error } = await _supabase
+        .from('attendance')
+        .select('*')
+        .order('created_at', { ascending: false });
+
     if (data) {
-        const dateF = document.getElementById('filter-date').value;
-        const collF = document.getElementById('filter-college').value;
-        const reasF = document.getElementById('filter-reason').value;
-
-        let filtered = data;
-        if(dateF) filtered = filtered.filter(x => x.created_at.includes(dateF));
-        if(collF !== "All") filtered = filtered.filter(x => x.college === collF);
-        if(reasF !== "All") filtered = filtered.filter(x => x.reason === reasF);
-
-        document.getElementById('visitor-count').innerText = filtered.length;
-        document.getElementById('log-list').innerHTML = filtered.map(log => `
+        document.getElementById('admin-log-data').innerHTML = data.map(log => `
             <tr>
-                <td>${log.full_name}</td>
+                <td><strong>${log.full_name}</strong></td>
                 <td>${log.college}</td>
                 <td>${log.reason}</td>
-                <td>${log.user_type}</td>
-                <td>${new Date(log.created_at).toLocaleString()}</td>
+                <td>${new Date(log.created_at).toLocaleTimeString()}</td>
             </tr>
         `).join('');
     }
 }
 
-function toggleView(view) {
-    const isAdmin = view === 'admin';
-    document.getElementById('admin-view').style.display = isAdmin ? 'block' : 'none';
-    document.getElementById('user-view').style.display = isAdmin ? 'none' : 'block';
-    document.getElementById('admin-tab').classList.toggle('active', isAdmin);
-    document.getElementById('user-tab').classList.toggle('active', !isAdmin);
-    if(isAdmin) loadLogs();
-}
-
-async function submitEntry() {
+// 5. Submit Form (Kiosk)
+async function submitLog() {
     const { data: { session } } = await _supabase.auth.getSession();
-    await _supabase.from('attendance').insert([{
+    const entry = {
         full_name: session.user.user_metadata.full_name,
         email: session.user.email,
         user_type: document.getElementById('user-type').value,
         college: document.getElementById('college').value,
         reason: document.getElementById('reason').value
-    }]);
-    alert("Welcome to NEU Library!");
-    if(ADMIN_EMAILS.includes(session.user.email)) loadLogs();
+    };
+
+    const { error } = await _supabase.from('attendance').insert([entry]);
+    if (!error) {
+        alert("Success! Enjoy the Library.");
+        loadAdminLogs();
+        checkSession();
+    }
 }
 
-async function logout() { await _supabase.auth.signOut(); window.location.reload(); }
-checkUser();
+// 6. Clock & Logout
+setInterval(() => {
+    document.getElementById('clock').innerText = new Date().toLocaleTimeString();
+}, 1000);
+
+async function logout() { 
+    await _supabase.auth.signOut(); 
+    window.location.reload(); 
+}
+
+// Start
+checkSession();
