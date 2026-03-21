@@ -2,9 +2,8 @@ const supabaseUrl = 'https://nkskdibhsqyxgirotoly.supabase.co';
 const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im5rc2tkaWJoc3F5eGdpcm90b2x5Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzM3NTYxNDQsImV4cCI6MjA4OTMzMjE0NH0.yq3jFykJN4EVgIJ1gTpf1ue2tq1zNz6keVCBcLxSAwc';
 const _supabase = supabase.createClient(supabaseUrl, supabaseKey);
 
-
 const ADMINS = [
-   
+    
     'eduardo.donato@neu.edu.ph',
     'jcesperanza@neu.edu.ph'
 ];
@@ -21,13 +20,15 @@ async function checkSession() {
     if (session) {
         document.getElementById('auth-section').style.display = 'none';
         document.getElementById('main-app').style.display = 'block';
-        document.getElementById('user-status').innerText = `Logged in as: ${session.user.email}`;
-
-       
-        if (ADMINS.includes(session.user.email.toLowerCase())) {
+        document.getElementById('user-status').innerText = `Logged in: ${session.user.email}`;
+        
+        const isAdmin = ADMINS.includes(session.user.email.toLowerCase());
+        if (isAdmin) {
             showView('admin');
+            document.getElementById('kiosk-logout-btn').style.display = 'none';
         } else {
             showView('kiosk');
+            document.getElementById('kiosk-logout-btn').style.display = 'block';
         }
     }
 }
@@ -42,43 +43,49 @@ async function loadAdminLogs() {
     const { data, error } = await _supabase
         .from('attendance')
         .select('*')
-        .order('logged_at', { ascending: false }); 
-
-    if (error) {
-        console.error("Error:", error.message);
-        return;
-    }
-
-    const tableBody = document.getElementById('admin-log-data');
-    if (data && data.length > 0) {
-        tableBody.innerHTML = data.map(log => `
+        .order('logged_at', { ascending: false });
+    
+    if (data) {
+        document.getElementById('admin-log-data').innerHTML = data.map(log => `
             <tr>
-                <td><strong>${log.full_name || 'No Name'}</strong></td>
-                <td>${log.college || 'N/A'}</td>
-                <td>${log.reason || 'N/A'}</td>
-                <td>${log.logged_at ? new Date(log.logged_at).toLocaleTimeString() : 'N/A'}</td>
+                <td><strong>${log.full_name || 'Anonymous'}</strong></td>
+                <td>${log.college || '---'}</td>
+                <td>${log.reason || '---'}</td>
+                <td>${log.logged_at ? new Date(log.logged_at).toLocaleTimeString() : '---'}</td>
             </tr>
         `).join('');
-    } else {
-        tableBody.innerHTML = `<tr><td colspan="4" style="text-align:center;">No records found.</td></tr>`;
     }
 }
 
 async function submitLog() {
     const { data: { session } } = await _supabase.auth.getSession();
+    const college = document.getElementById('college').value;
+    const reason = document.getElementById('reason').value;
+    
+    if(!college || !reason) { 
+        alert("Please select college and reason before submitting."); 
+        return; 
+    }
+
     const { error } = await _supabase.from('attendance').insert([{
         full_name: session.user.user_metadata.full_name,
         email: session.user.email,
-        college: document.getElementById('college').value,
-        reason: document.getElementById('reason').value
+        college: college,
+        reason: reason
     }]);
 
-    if (!error) {
-        alert("Visitor log submitted successfully!");
-        window.location.reload();
+    if (!error) { 
+        alert("Entry successfully recorded!"); 
+        window.location.reload(); 
     } else {
-        alert("Error submitting: " + error.message);
+        alert("Error: " + error.message);
     }
+}
+
+function clearForm() {
+    document.getElementById('college').value = "";
+    document.getElementById('reason').value = "";
+    alert("Form entries cleared.");
 }
 
 async function logout() {
