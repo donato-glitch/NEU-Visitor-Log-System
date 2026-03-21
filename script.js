@@ -3,18 +3,34 @@ const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZS
 const _supabase = supabase.createClient(supabaseUrl, supabaseKey);
 
 const ADMINS = ['eduardo.donato@neu.edu.ph', 'jcesperanza@neu.edu.ph'];
+let isViewingAdmin = true;
 
 async function login() {
-    await _supabase.auth.signInWithOAuth({ provider: 'google', options: { redirectTo: window.location.href } });
+    
+    await _supabase.auth.signInWithOAuth({ 
+        provider: 'google',
+        options: { 
+            redirectTo: window.location.origin + window.location.pathname,
+            queryParams: { prompt: 'select_account' }
+        }
+    });
 }
 
 async function checkSession() {
+    
     const { data: { session } } = await _supabase.auth.getSession();
+    
     if (session) {
+        
+        if (window.location.hash) {
+            window.history.replaceState(null, null, window.location.pathname);
+        }
+
         document.getElementById('auth-section').style.display = 'none';
         document.getElementById('main-app').style.display = 'block';
         const userEmail = session.user.email.toLowerCase();
-        document.getElementById('user-status').innerText = `Logged in: ${userEmail}`;
+        document.getElementById('user-status').innerText = `User: ${userEmail}`;
+        
         if (ADMINS.includes(userEmail)) {
             document.getElementById('role-switch-btn').style.display = 'block';
             showView('admin');
@@ -24,10 +40,21 @@ async function checkSession() {
     }
 }
 
+async function logout() {
+    await _supabase.auth.signOut();
+    
+    window.location.href = window.location.origin + window.location.pathname;
+}
+
 function showView(view) {
     document.getElementById('admin-view').style.display = (view === 'admin') ? 'block' : 'none';
     document.getElementById('kiosk-view').style.display = (view === 'kiosk') ? 'block' : 'none';
     if(view === 'admin') loadAdminLogs();
+}
+
+function toggleRole() {
+    isViewingAdmin = !isViewingAdmin;
+    showView(isViewingAdmin ? 'admin' : 'kiosk');
 }
 
 async function loadAdminLogs() {
@@ -59,10 +86,10 @@ async function submitLog() {
     const { error } = await _supabase.from('attendance').insert([entry]);
     if (!error) {
         alert("Success!");
-        showView('admin');
+        if (!ADMINS.includes(session.user.email.toLowerCase())) logout();
+        else loadAdminLogs();
     }
 }
 
-async function logout() { await _supabase.auth.signOut(); window.location.reload(); }
 setInterval(() => { document.getElementById('clock').innerText = new Date().toLocaleTimeString(); }, 1000);
 checkSession();
