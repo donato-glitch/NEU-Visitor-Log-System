@@ -51,27 +51,29 @@ function toggleRole() {
 }
 
 async function loadAdminLogs() {
+    const refreshBtn = document.querySelector('.bg-teal');
+    if(refreshBtn) refreshBtn.style.opacity = '0.5';
+
     const { data, error } = await _supabase
         .from('attendance')
         .select('*')
         .order('logged_at', { ascending: false });
 
-    if (error) return;
+    if (error) {
+        if(refreshBtn) refreshBtn.style.opacity = '1';
+        return;
+    }
 
     if (data) {
         const total = data.length;
         const students = data.filter(d => d.user_type === 'Student').length;
         const employees = data.filter(d => d.user_type === 'Employee' || d.user_type === 'Teacher' || d.user_type === 'Staff').length;
 
-        const statTotal = document.getElementById('stat-total');
-        const statStudents = document.getElementById('stat-students');
-        const statEmployees = document.getElementById('stat-employees');
+        if(document.getElementById('stat-total')) document.getElementById('stat-total').innerText = total;
+        if(document.getElementById('stat-students')) document.getElementById('stat-students').innerText = students;
+        if(document.getElementById('stat-employees')) document.getElementById('stat-employees').innerText = employees;
+
         const logBody = document.getElementById('admin-log-data');
-
-        if(statTotal) statTotal.innerText = total;
-        if(statStudents) statStudents.innerText = students;
-        if(statEmployees) statEmployees.innerText = employees;
-
         if (logBody) {
             logBody.innerHTML = data.map(log => `
                 <tr>
@@ -83,6 +85,7 @@ async function loadAdminLogs() {
                 </tr>`).join('');
         }
     }
+    setTimeout(() => { if(refreshBtn) refreshBtn.style.opacity = '1'; }, 200);
 }
 
 async function submitLog() {
