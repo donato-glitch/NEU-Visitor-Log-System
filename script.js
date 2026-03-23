@@ -84,6 +84,9 @@ async function loadAdminLogs() {
                     <td>${new Date(log.logged_at).toLocaleTimeString()}</td>
                 </tr>`).join('');
         }
+
+        const updateEl = document.getElementById('last-update');
+        if(updateEl) updateEl.innerText = `Last updated: ${new Date().toLocaleTimeString()}`;
     }
     setTimeout(() => { if(refreshBtn) refreshBtn.style.opacity = '1'; }, 200);
 }
