@@ -1,26 +1,35 @@
-# Welcome to NEU Library - Visitor Log System
+🏛️ NEU Library - Visitor Log System
+Live Demo: https://donato-glitch.github.io/NEU-Visitor-Log-System/
 
-**Live Demo:** https://donato-glitch.github.io/NEU-Visitor-Log-System/
+This official Visitor Log System is specifically designed for the New Era University Library to streamline the attendance and recording process. It provides a digital alternative to manual logbooks, ensuring organized, secure, and real-time data management.
 
-This official Visitor Log System is specifically designed for the New Era University Library to streamline the attendance and recording process. It provides a digital alternative to manual logbooks, ensuring organized and secure data management.
+✨ Key Features
+Google Authentication – Secure login integration for both Students and Admins.
 
-## Key Features
-* Google Authentication – Secure login integration for both Students and Admins.
-* Role-Based Dashboard – Custom interfaces for Admin management and Student Kiosk mode.
-* Real-time Visitor Counter – Live display of total recorded visitors on the Admin dashboard.
-* Automated Logging – Automatically captures visitor name, email, college, and purpose of visit.
-* Streamlined Navigation – Includes a "Clear Form" button for quick inputs and a "Back" button for Admin navigation.
+Role-Based Dashboard – Custom interfaces: Admins see the full analytics dashboard, while Visitors are restricted to the Kiosk Entry Form.
 
-## Tech Stack
-* Frontend: HTML5, CSS3, JavaScript (Vanilla)
-* Backend: Supabase (Real-time Database)
-* Auth: Google OAuth via Supabase
-* Design: Metro UI Inspiration
+Real-time Analytics – Live display of Total Visitors, Student counts, and Staff/Teacher logs.
 
-## How to Use
-1. Open the live link in any modern web browser.
-2. Login using a Google account.
-3. For Students: Fill out the form and click "Submit Entry."
-4. For Admins: Refresh the logs to see the latest entries and the updated total visitor count.
+Automated Logging – Automatically captures full name, email, college/department, and purpose of visit.
+
+Visual Feedback – Animated interface with "Last Updated" timestamps and button interaction effects.
+
+🛠️ Tech Stack
+Frontend: HTML5, CSS3 (with Animations), JavaScript (Vanilla)
+
+Backend: Supabase (Real-time Database & SQL)
+
+Auth: Google OAuth 2.0 via Supabase
+
+Icons: FontAwesome 6.0
+
+📖 How to Use
+Open the live link in any modern web browser.
+
+Login using a Google account. * (Note: For security, the system uses official Google OAuth to verify identities. Your password is encrypted and handled directly by Google.)
+
+For Visitors (Students/Staff): Fill out the form and click "SUBMIT LOG." The system will automatically log you out after a successful entry to protect your privacy.
+
+For Admins: Access the dashboard to view the Official Visitor Records. Click "Refresh Logs" to fetch the latest data from the database.
 
 Developed by: Eduardo Donato Jr.
